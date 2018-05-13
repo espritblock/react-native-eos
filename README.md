@@ -14,13 +14,13 @@ npm install react-native-eosjs --save
 
 ## App.js add EosProvider
 
-import {EosProvider} from "react-native-eos";
+import {EosProvider} from "react-native-eosjs";
 
 <EosProvider server="http://127.0.0.1:8888" />
 
 ## seedPrivateKey
 
-import {Eos} from "react-native-eos";
+import {Eos} from "react-native-eosjs";
 
 Eos.seedPrivateKey("onwer help world","active help world",(r)=>{
 
