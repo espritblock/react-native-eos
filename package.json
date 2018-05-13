@@ -1,5 +1,5 @@
 {
-  "name": "react-native-eos",
+  "name": "react-native-eosjs",
   "version": "0.0.1",
   "description": "react-native eosjs component",
   "main": "src/index.js",

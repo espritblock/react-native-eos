@@ -8,7 +8,7 @@ see https://github.com/smartblock18/eos.git
 
 # install
 
-npm install react-native-eos --save
+npm install react-native-eosjs --save
 
 # use
 
