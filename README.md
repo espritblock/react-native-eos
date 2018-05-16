@@ -1,10 +1,10 @@
 # react-native-eos
 
-react native eosjs component
+react native eosjs component upgrade to dawn4
 
 # eos node server
 
-see https://github.com/smartblock18/eos.git
+see https://github.com/espritblock/eos.git
 
 # install
 
@@ -46,7 +46,7 @@ Eos.createAccount("eosio","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
  
 # join eos open source 
 
-	wechat hl_294944589
+wechat hl_294944589
  
 
 # License
