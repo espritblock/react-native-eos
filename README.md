@@ -1,6 +1,6 @@
 # react-native-eos
 
-react native eosjs component upgrade to dawn4
+react native eosjs component upgrade to dawn4.2@20180526
 
 # eos node server
 
@@ -63,6 +63,26 @@ Eos.createAccount("eosio","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
 ```
 
  Eos.transfer("eosio","aaa","1000.0000 ABC","","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",true,(r)=>{
+
+ });
+ 
+ ```
+
+ ## check public key
+
+```
+
+ Eos.checkPublicKey("public key",(r)=>{
+
+ });
+ 
+ ```
+
+ ## check private key
+
+```
+
+ Eos.checkPrivateKey("private key",(r)=>{
 
  });
  

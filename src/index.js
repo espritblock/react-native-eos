@@ -72,6 +72,23 @@ export class Eos {
   static balance(contract,account,callback){
     this.map["eos"].balance(contract,account,callback);
   }
+
+  /**
+   * 公钥校验
+   * @param {公钥} publickey 
+   */
+  static checkPublicKey(publickey,callback){
+    this.map["eos"].checkPublicKey(publickey,callback);
+  }
+
+   /**
+   * 私钥校验
+   * @param {私钥} privatekey 
+   */
+  static checkPrivateKey(privatekey,callback){
+    this.map["eos"].checkPrivateKey(privatekey,callback);
+  }
+
 }
 
 Eos.map = {};
@@ -137,6 +154,23 @@ export class EosProvider extends Component {
     this.balanceCallback=callback;
   }
 
+
+   /**
+   * 检查公钥
+   */
+  checkPublicKey = (publickey,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_ispublickey,key:publickey,eosServer:this.props.server}));
+    this.checkPublicKeyCallback=callback;
+  }
+
+  /**
+   * 检查私钥
+   */
+  checkPrivateKey = (privatekey,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_isprivatekey,key:privatekey,eosServer:this.props.server}));
+    this.checkPrivateKeyCallback=callback;
+  }
+
   /**
    * 获取结果
    */
@@ -166,6 +200,16 @@ export class EosProvider extends Component {
     if(result.method==api.eos_balance && this.balanceCallback){
       this.balanceCallback(result);
       this.balanceCallback = null;
+    }
+    //检查公钥
+    if(result.method==api.eos_ispublickey && this.checkPublicKeyCallback){
+      this.checkPublicKeyCallback(result);
+      this.checkPublicKeyCallback = null;
+    }
+    //检查私钥
+    if(result.method==api.eos_isprivatekey && this.checkPrivateKeyCallback){
+      this.checkPrivateKeyCallback(result);
+      this.checkPrivateKeyCallback = null;
     }
   }
 

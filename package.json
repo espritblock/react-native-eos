@@ -1,7 +1,7 @@
 {
   "name": "react-native-eosjs",
-  "version": "0.0.2",
-  "description": "react-native eosjs component",
+  "version": "0.0.3",
+  "description": "react-native eosjs component dawn4.2",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
