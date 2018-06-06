@@ -1,6 +1,6 @@
 # react-native-eos
 
-react native eosjs component upgrade to dawn4.2@20180526
+react native eosjs component upgrade to eosio 1.0.1
 
 # eos node server
 
