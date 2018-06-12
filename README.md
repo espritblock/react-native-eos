@@ -1,6 +1,6 @@
 # react-native-eos
 
-react native eosjs component upgrade to eosio 1.0.1
+react native eosjs component upgrade to eosio 1.0.2
 
 # eos node server
 
@@ -95,4 +95,4 @@ wechat hl_294944589
 
 # License
 
-react-native-eos is released under the Apache License 2.0.
+react-native-eos is released under GNU/GPL Version 3
