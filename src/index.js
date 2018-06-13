@@ -27,6 +27,23 @@ export class Eos {
   }
 
   /**
+   * 生成随机私钥
+   * @param {回调函数} callback 
+   */
+  static randomPrivateKey(callback){
+    this.map["eos"].randomPrivateKey(callback);
+  }
+
+  /**
+   * 私钥生成公钥
+   * @param {私钥} privateKey 
+   * @param {回调函数} callback 
+   */
+  static privateToPublic(privateKey,callback){
+    this.map["eos"].privateToPublic(privateKey,callback);
+  }
+
+  /**
    * 私钥数据签名
    * @param {数据} data 
    * @param {私钥} pk 
@@ -122,6 +139,22 @@ export class EosProvider extends Component {
     this.seedPrivateKeyCallback=callback;
   }
 
+   /**
+   * 生成随机私钥
+   */
+  randomPrivateKey = (callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_random_private_key}));
+    this.randomPrivateKeyCallback=callback;
+  }
+
+  /**
+   * 私钥生成公钥
+   */
+  privateToPublic = (privateKey,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_private_public,privateKey}));
+    this.privateToPublicCallback=callback;
+  }
+
   /**
    * 对数据进行签名
    */
@@ -210,6 +243,17 @@ export class EosProvider extends Component {
     if(result.method==api.eos_isprivatekey && this.checkPrivateKeyCallback){
       this.checkPrivateKeyCallback(result);
       this.checkPrivateKeyCallback = null;
+    }
+    //私钥生成公钥
+    if(result.method==api.eos_private_public && this.privateToPublicCallback){
+      this.privateToPublicCallback(result);
+      this.privateToPublicCallback = null;
+    }
+
+    //生成随机私钥
+    if(result.method==api.eos_random_private_key && this.randomPrivateKeyCallback){
+      this.randomPrivateKeyCallback(result);
+      this.randomPrivateKeyCallback = null;
     }
   }
 

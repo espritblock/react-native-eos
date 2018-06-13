@@ -26,11 +26,51 @@ import {EosProvider} from "react-native-eosjs";
 
 ```
 
+
 ## seedPrivateKey
 
 ```
 
 import {Eos} from "react-native-eosjs";
+
+Eos.randomPrivateKey((r)=>{
+
+})
+
+```
+## privateToPublic
+
+```
+
+Eos.privateToPublic(pk,(r)=>{
+
+})
+
+```
+
+## checkPrivateKey
+
+```
+
+Eos.checkPrivateKey(pk,(r)=>{
+
+})
+
+```
+
+## checkPublicKey
+
+```
+
+Eos.checkPublicKey(puk,(r)=>{
+
+})
+
+```
+
+## seedPrivateKey
+
+```
 
 Eos.seedPrivateKey("onwer help world","active help world",(r)=>{
 

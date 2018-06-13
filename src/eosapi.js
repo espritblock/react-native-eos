@@ -5,5 +5,7 @@ export default {
     eos_create_account:"eos_create_account",
     eos_balance:"eos_balance",
     eos_isprivatekey:"eos_isprivatekey",
-    eos_ispublickey:"eos_ispublickey"
+    eos_ispublickey:"eos_ispublickey",
+    eos_private_public:"eos_private_public",
+    eos_random_private_key:"eos_random_private_key"
 }

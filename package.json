@@ -1,14 +1,14 @@
 {
   "name": "react-native-eosjs",
-  "version": "0.0.4",
-  "description": "react-native eosjs component eosio 1.0.1",
+  "version": "0.0.5",
+  "description": "react-native eosjs component eosio 1.0.2",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smartblock18/react-native-eos.git"
+    "url": "git+https://github.com/espritblock/react-native-eos.git"
   },
   "keywords": [
     "react-native",
@@ -16,12 +16,12 @@
     "eosjs",
     "espritblock"
   ],
-  "author": "smartblock",
-  "license": "Apache License 2.0",
+  "author": "espritblock",
+  "license": "GNU/GPL Version 3",
   "bugs": {
-    "url": "https://github.com/smartblock18/react-native-eos/issues"
+    "url": "https://github.com/espritblock/react-native-eos/issues"
   },
-  "homepage": "https://github.com/smartblock18/react-native-eos#readme",
+  "homepage": "https://github.com/espritblock/react-native-eos#readme",
   "dependencies": {
     
   }
