@@ -1,10 +1,10 @@
 # react-native-eos
 
-react native eosjs component upgrade to eosio 1.0.2
+react native eosjs component upgrade mainnet 1.0.5
 
 # eos node server
 
-see https://github.com/espritblock/eos.git
+connect main net  http://mainnet.genereos.io
 
 # install
 
@@ -22,12 +22,71 @@ npm install react-native-eosjs --save
 
 import {EosProvider} from "react-native-eosjs";
 
-<EosProvider server="http://127.0.0.1:8888" />
+<EosProvider server="http://mainnet.genereos.io" chainId="aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906" />
 
 ```
 
+## delegate
+
+```
+
+import {Eos} from "react-native-eosjs";
+
+Eos.delegate(pk,pay,recive,cpu,net,(r)=>{
+
+})
+
+```
+
+## undelegate
+
+```
+
+import {Eos} from "react-native-eosjs";
+
+Eos.undelegate(pk,from,recive,cpu,net,(r)=>{
+
+})
+
+```
+
+## buyram
+
+```
+
+import {Eos} from "react-native-eosjs";
+
+Eos.buyram(pk,pay,recive,count,(r)=>{
+
+})
+
+```
+
+## sellram
+
+```
+
+import {Eos} from "react-native-eosjs";
+
+Eos.buyram(pk,recive,bytes,(r)=>{
+
+})
+
+```
 
 ## seedPrivateKey
+
+```
+
+import {Eos} from "react-native-eosjs";
+
+Eos.randomPrivateKey((r)=>{
+
+})
+
+```
+
+## randomPrivateKey
 
 ```
 
@@ -68,26 +127,6 @@ Eos.checkPublicKey(puk,(r)=>{
 
 ```
 
-## seedPrivateKey
-
-```
-
-Eos.seedPrivateKey("onwer help world","active help world",(r)=>{
-
-})
-
-```
-
-## createAccount
-
-```
-
-Eos.createAccount("eosio","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3","aaa",onwerPublic,activePublic,(r)=>{
-
-});
-
-```
-
 ## balance
 
 ```
@@ -103,26 +142,6 @@ Eos.createAccount("eosio","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
 ```
 
  Eos.transfer("eosio","aaa","1000.0000 ABC","","5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",true,(r)=>{
-
- });
- 
- ```
-
- ## check public key
-
-```
-
- Eos.checkPublicKey("public key",(r)=>{
-
- });
- 
- ```
-
- ## check private key
-
-```
-
- Eos.checkPrivateKey("private key",(r)=>{
 
  });
  

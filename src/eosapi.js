@@ -7,5 +7,9 @@ export default {
     eos_isprivatekey:"eos_isprivatekey",
     eos_ispublickey:"eos_ispublickey",
     eos_private_public:"eos_private_public",
-    eos_random_private_key:"eos_random_private_key"
+    eos_random_private_key:"eos_random_private_key",
+    eos_delegate:"eos_delegate",
+    eos_un_delegate:"eos_un_delegate",
+    eos_buy_ram:"eos_buy_ram",
+    eos_sell_ram:"eos_sell_ram"
 }

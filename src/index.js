@@ -63,8 +63,8 @@ export class Eos {
    * @param {是否广播} broadcast 
    * @param {回调} callback 
    */
-  static transfer(from,to,quantity,memo,pk,broadcast,callback){
-    this.map["eos"].transfer(from,to,quantity,memo,pk,broadcast,callback);
+  static transfer(contract,from,to,quantity,memo,pk,broadcast,callback){
+    this.map["eos"].transfer(contract,from,to,quantity,memo,pk,broadcast,callback);
   }
 
   /**
@@ -104,6 +104,55 @@ export class Eos {
    */
   static checkPrivateKey(privatekey,callback){
     this.map["eos"].checkPrivateKey(privatekey,callback);
+  }
+
+   /**
+    * 抵押
+    * @param {*} pk 
+    * @param {*} pay 
+    * @param {*} recive 
+    * @param {*} cpu 
+    * @param {*} net 
+    * @param {*} callback 
+    */
+  static delegate(pk,pay,recive,cpu,net,callback){
+    this.map["eos"].delegate(pk,pay,recive,cpu,net,callback);
+  }
+
+  /**
+   * 解除抵押
+   * @param {} pk 
+   * @param {*} pay 
+   * @param {*} recive 
+   * @param {*} cpu 
+   * @param {*} net 
+   * @param {*} callback 
+   */
+  static undelegate(pk,from,recive,cpu,net,callback){
+    this.map["eos"].undelegate(pk,from,recive,cpu,net,callback);
+  }
+
+  /**
+   * 买内存
+   * @param {*} pk 
+   * @param {*} pay 
+   * @param {*} recive 
+   * @param {*} count 
+   * @param {*} callback 
+   */
+  static buyram(pk,pay,recive,count,callback){
+    this.map["eos"].buyram(pk,pay,recive,count,callback);
+  }
+
+  /**
+   * 卖内存
+   * @param {*} pk 
+   * @param {*} account 
+   * @param {*} bytes 
+   * @param {*} callback 
+   */
+  static sellram(pk,recive,bytes,callback){
+    this.map["eos"].sellram(pk,recive,bytes,callback);
   }
 
 }
@@ -166,8 +215,8 @@ export class EosProvider extends Component {
   /**
    * 转账
    */
-  transfer = (from,to,quantity,memo,pk,broadcast,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_transfer,from,to,quantity,memo,pk,broadcast,eosServer:this.props.server}));
+  transfer = (contract,from,to,quantity,memo,pk,broadcast,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_transfer,contract,from,to,quantity,memo,pk,broadcast,eosServer:this.props.server,chainId:this.props.chainId}));
     this.transferCallback=callback;
   }
 
@@ -175,7 +224,7 @@ export class EosProvider extends Component {
    * 创建账户
    */
   createAccount = (creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,callback) => {
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_create_account,creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,eosServer:this.props.server}));
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_create_account,creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,eosServer:this.props.server,chainId:this.props.chainId}));
     this.createAccountCallback=callback;
   }
 
@@ -183,7 +232,7 @@ export class EosProvider extends Component {
    * 查询余额
    */
   balance = (contract,account,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_balance,contract,account,eosServer:this.props.server}));
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_balance,contract,account,eosServer:this.props.server,chainId:this.props.chainId}));
     this.balanceCallback=callback;
   }
 
@@ -192,7 +241,7 @@ export class EosProvider extends Component {
    * 检查公钥
    */
   checkPublicKey = (publickey,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_ispublickey,key:publickey,eosServer:this.props.server}));
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_ispublickey,key:publickey,eosServer:this.props.server,chainId:this.props.chainId}));
     this.checkPublicKeyCallback=callback;
   }
 
@@ -200,8 +249,40 @@ export class EosProvider extends Component {
    * 检查私钥
    */
   checkPrivateKey = (privatekey,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_isprivatekey,key:privatekey,eosServer:this.props.server}));
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_isprivatekey,key:privatekey,eosServer:this.props.server,chainId:this.props.chainId}));
     this.checkPrivateKeyCallback=callback;
+  }
+
+  /**
+   * 抵押
+   */
+  delegate = (pk,pay,recive,cpu,net,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_delegate,pk,pay,recive,cpu,net,eosServer:this.props.server,chainId:this.props.chainId}));
+    this.delegateCallback=callback;
+  }
+
+  /**
+   * 解除抵押
+   */
+  undelegate = (pk,from,recive,cpu,net,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_un_delegate,pk,from,recive,cpu,net,eosServer:this.props.server,chainId:this.props.chainId}));
+    this.undelegateCallback=callback;
+  }
+
+  /**
+   * 购买内存
+   */
+  buyram = (pk,pay,recive,count,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_buy_ram,pk,pay,recive,count,eosServer:this.props.server,chainId:this.props.chainId}));
+    this.buyramCallback=callback;
+  }
+
+  /**
+   * 卖内存
+   */
+  sellram = (pk,recive,bytes,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_sell_ram,pk,recive,bytes,eosServer:this.props.server,chainId:this.props.chainId}));
+    this.sellramCallback=callback;
   }
 
   /**
@@ -249,11 +330,30 @@ export class EosProvider extends Component {
       this.privateToPublicCallback(result);
       this.privateToPublicCallback = null;
     }
-
     //生成随机私钥
     if(result.method==api.eos_random_private_key && this.randomPrivateKeyCallback){
       this.randomPrivateKeyCallback(result);
       this.randomPrivateKeyCallback = null;
+    }
+    //抵押
+    if(result.method==api.eos_delegate && this.delegateCallback){
+      this.delegateCallback(result);
+      this.delegateCallback = null;
+    }
+    //解除抵押
+    if(result.method==api.eos_un_delegate && this.undelegateCallback){
+      this.undelegateCallback(result);
+      this.undelegateCallback = null;
+    }
+    //购买内存
+    if(result.method==api.eos_buy_ram && this.buyramCallback){
+      this.buyramCallback(result);
+      this.buyramCallback = null;
+    }
+    //卖出内存
+    if(result.method==api.eos_sell_ram && this.sellramCallback){
+      this.sellramCallback(result);
+      this.sellramCallback = null;
     }
   }
 
