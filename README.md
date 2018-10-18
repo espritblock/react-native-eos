@@ -178,12 +178,19 @@ Eos.transaction(pk,actions,(r)=>{
 # development
 
 react-native add api you can modify src/api.js
+
 eosjs lib upgrade you can modify src/eos.js
+
 eos.js build 
+
 	git clone https://github.com/EOSIO/eosjs/tree/v15.0.1
+	
 	cd eosjs
+	
 	npm install
+	
 	npm run build_browser  
+	
 	copy eos.js to here
  
 # join eos open source 
