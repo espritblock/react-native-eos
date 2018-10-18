@@ -11,5 +11,7 @@ export default {
     eos_delegate:"eos_delegate",
     eos_un_delegate:"eos_un_delegate",
     eos_buy_ram:"eos_buy_ram",
-    eos_sell_ram:"eos_sell_ram"
+    eos_sell_ram:"eos_sell_ram",
+    eos_joinact:"eos_joinact",
+    eos_transaction:"eos_transaction"
 }

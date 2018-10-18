@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {View,WebView,Platform,DeviceEventEmitter} from 'react-native';
-import api from './eosapi'
+import api from './eosapi';
+
+const source = (Platform.OS == 'ios') ? require('./eos/eosjs.html') : {'uri':'file:///android_asset/eos/eosjs.html',baseUrl:"file:///android_asset/eos/"}
 
 /**
- * creator by smartblock
+ * creator by espritblock
  */
 export class Eos {
 
@@ -63,8 +65,8 @@ export class Eos {
    * @param {是否广播} broadcast 
    * @param {回调} callback 
    */
-  static transfer(contract,from,to,quantity,memo,pk,broadcast,callback){
-    this.map["eos"].transfer(contract,from,to,quantity,memo,pk,broadcast,callback);
+  static transfer(contract,from,to,quantity,memo,pk,perm,broadcast,callback){
+    this.map["eos"].transfer(contract,from,to,quantity,memo,pk,perm,broadcast,callback);
   }
 
   /**
@@ -76,8 +78,8 @@ export class Eos {
    * @param {active公钥} activePublicKey 
    * @param {回调} callback 
    */
-  static createAccount(creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,callback){
-    this.map["eos"].createAccount(creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,callback);
+  static createAccount(creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,net,cpu,bytes,transfer,perm,callback){
+    this.map["eos"].createAccount(creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,net,cpu,bytes,transfer,perm,callback);
   }
 
   /**
@@ -115,8 +117,8 @@ export class Eos {
     * @param {*} net 
     * @param {*} callback 
     */
-  static delegate(pk,pay,recive,cpu,net,callback){
-    this.map["eos"].delegate(pk,pay,recive,cpu,net,callback);
+  static delegate(pk,pay,recive,cpu,net,perm,callback){
+    this.map["eos"].delegate(pk,pay,recive,cpu,net,perm,callback);
   }
 
   /**
@@ -128,8 +130,8 @@ export class Eos {
    * @param {*} net 
    * @param {*} callback 
    */
-  static undelegate(pk,from,recive,cpu,net,callback){
-    this.map["eos"].undelegate(pk,from,recive,cpu,net,callback);
+  static undelegate(pk,from,recive,cpu,net,perm,callback){
+    this.map["eos"].undelegate(pk,from,recive,cpu,net,perm,callback);
   }
 
   /**
@@ -140,8 +142,8 @@ export class Eos {
    * @param {*} count 
    * @param {*} callback 
    */
-  static buyram(pk,pay,recive,count,callback){
-    this.map["eos"].buyram(pk,pay,recive,count,callback);
+  static buyram(pk,pay,recive,count,perm,callback){
+    this.map["eos"].buyram(pk,pay,recive,count,perm,callback);
   }
 
   /**
@@ -151,10 +153,16 @@ export class Eos {
    * @param {*} bytes 
    * @param {*} callback 
    */
-  static sellram(pk,recive,bytes,callback){
-    this.map["eos"].sellram(pk,recive,bytes,callback);
+  static sellram(pk,recive,bytes,perm,callback){
+    this.map["eos"].sellram(pk,recive,bytes,perm,callback);
   }
 
+  /**
+   * 交易
+   */
+  static transaction(pk,actions,callback){
+    this.map["eos"].transaction(pk,actions,callback);
+  }
 }
 
 Eos.map = {};
@@ -215,16 +223,16 @@ export class EosProvider extends Component {
   /**
    * 转账
    */
-  transfer = (contract,from,to,quantity,memo,pk,broadcast,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_transfer,contract,from,to,quantity,memo,pk,broadcast,eosServer:this.props.server,chainId:this.props.chainId}));
+  transfer = (contract,from,to,quantity,memo,pk,perm,broadcast,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_transfer,contract,from,to,quantity,memo,pk,perm,broadcast,eosServer:this.props.server,chainId:this.props.chainId}));
     this.transferCallback=callback;
   }
 
    /**
    * 创建账户
    */
-  createAccount = (creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,callback) => {
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_create_account,creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,eosServer:this.props.server,chainId:this.props.chainId}));
+  createAccount = (creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,net,cpu,bytes,transfer,perm,callback) => {
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_create_account,creator,createPrivateKey,newAccount,onwerPublicKey,activePublicKey,net,cpu,bytes,transfer,perm,eosServer:this.props.server,chainId:this.props.chainId}));
     this.createAccountCallback=callback;
   }
 
@@ -235,7 +243,6 @@ export class EosProvider extends Component {
     this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_balance,contract,account,eosServer:this.props.server,chainId:this.props.chainId}));
     this.balanceCallback=callback;
   }
-
 
    /**
    * 检查公钥
@@ -256,33 +263,41 @@ export class EosProvider extends Component {
   /**
    * 抵押
    */
-  delegate = (pk,pay,recive,cpu,net,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_delegate,pk,pay,recive,cpu,net,eosServer:this.props.server,chainId:this.props.chainId}));
+  delegate = (pk,pay,recive,cpu,net,perm,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_delegate,pk,pay,recive,cpu,net,perm,eosServer:this.props.server,chainId:this.props.chainId}));
     this.delegateCallback=callback;
   }
 
   /**
    * 解除抵押
    */
-  undelegate = (pk,from,recive,cpu,net,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_un_delegate,pk,from,recive,cpu,net,eosServer:this.props.server,chainId:this.props.chainId}));
+  undelegate = (pk,from,recive,cpu,net,perm,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_un_delegate,pk,from,recive,cpu,net,perm,eosServer:this.props.server,chainId:this.props.chainId}));
     this.undelegateCallback=callback;
   }
 
   /**
    * 购买内存
    */
-  buyram = (pk,pay,recive,count,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_buy_ram,pk,pay,recive,count,eosServer:this.props.server,chainId:this.props.chainId}));
+  buyram = (pk,pay,recive,count,perm,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_buy_ram,pk,pay,recive,count,perm,eosServer:this.props.server,chainId:this.props.chainId}));
     this.buyramCallback=callback;
   }
 
   /**
    * 卖内存
    */
-  sellram = (pk,recive,bytes,callback) =>{
-    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_sell_ram,pk,recive,bytes,eosServer:this.props.server,chainId:this.props.chainId}));
+  sellram = (pk,recive,bytes,perm,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_sell_ram,pk,recive,bytes,perm,eosServer:this.props.server,chainId:this.props.chainId}));
     this.sellramCallback=callback;
+  }
+
+  /**
+   * 交易
+   */
+  transaction = (pk,actions,callback) =>{
+    this.refs.eosjs.postMessage(JSON.stringify({method:api.eos_transaction,pk,actions,eosServer:this.props.server,chainId:this.props.chainId}));
+    this.transactionCallback=callback;
   }
 
   /**
@@ -355,9 +370,14 @@ export class EosProvider extends Component {
       this.sellramCallback(result);
       this.sellramCallback = null;
     }
+    //交易
+    if(result.method==api.eos_transaction && this.transactionCallback){
+      this.transactionCallback(result);
+      this.transactionCallback = null;
+    }
   }
 
   render() {
-    return (<View style={{flex:1,height:0,zIndex:-999999,position:'absolute'}}><WebView ref="eosjs" style={{height:0,width:0,backgroundColor:'transparent'}} source={require('./eosjs.html')} onMessage={(e)=>{this.onMessage(e)}}/></View>);
+    return (<View style={{flex:1,height:100,position: 'absolute',zIndex:-999999}}><WebView ref="eosjs" style={{height:0,width:0,backgroundColor:'transparent'}} source={source} onMessage={(e)=>{this.onMessage(e)}} javaScriptEnabled={true} mixedContentMode="always"/></View>);
   }
 }
